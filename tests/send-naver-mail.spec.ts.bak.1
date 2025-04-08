@@ -1,0 +1,40 @@
+import { test, expect } from '@playwright/test';
+
+test.describe('네이버 메일 전송 테스트', () => {
+  test('메일 작성 및 전송 테스트', async ({ page }) => {
+    // 1. 네이버 로그인 페이지 접속
+    await page.goto('https://mail.naver.com');
+    await expect(page).toHaveURL(/.*mail\.naver\.com/);
+    //await expect(page.getByRole('heading', { name: '로그인' })).toBeVisible();
+
+    // 2. 언어 설정
+    await page.getByRole('combobox', { name: '언어선택' }).click();
+    await page.getByRole('option', { name: '한국어' }).click();
+    await expect(page.getByRole('combobox', { name: '언어선택' })).toHaveValue('ko');
+
+    // 3. 로그인 정보 입력
+    await page.getByLabel('아이디').fill('kimilsuk1310');
+    await page.getByLabel('비밀번호').fill('Dlftjr*520');
+    await page.getByRole('button', { name: '로그인' }).click();
+    await expect(page).toHaveURL(/.*mail\.naver\.com\/main/);
+
+    // 4. 메일 페이지로 이동
+    await page.getByRole('button', { name: '메일쓰기' }).click();
+    await expect(page.getByRole('heading', { name: '메일쓰기' })).toBeVisible();
+
+    // 5. 받는 사람, 제목과 본문 입력
+    await page.getByLabel('받는 사람').fill('kimilsuk1310@hanmail.net');
+    await page.getByLabel('제목').fill('자동화테스트');
+    await page.getByLabel('내용').fill('테스트');
+    await expect(page.getByLabel('받는 사람')).toHaveValue('kimilsuk1310@hanmail.net');
+    await expect(page.getByLabel('제목')).toHaveValue('자동화테스트');
+    await expect(page.getByLabel('내용')).toHaveValue('테스트');
+
+    // 6. 보내기 버튼 클릭
+    await page.getByRole('button', { name: '보내기' }).click();
+    await expect(page.getByText('전송 중')).toBeVisible();
+
+    // 7. 전송 완료 메시지 확인
+    await expect(page.getByText('메일이 전송되었습니다')).toBeVisible();
+  });
+}); 
