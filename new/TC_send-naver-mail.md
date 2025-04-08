@@ -84,4 +84,4 @@
   - 테스트 데이터
     - 없음
   - 코드 자동 생성 시 참조할 html 파일: ../page-snapshot/Step-06.html
-  - Step 완료 후 저장할 현재 웹페이지 파일 이름: ../page-snapshot/Step-07.html
+  - Step 완료 후 저장할 현재 웹페이지 파일 이름: 없음
