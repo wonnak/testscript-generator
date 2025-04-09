@@ -6,22 +6,22 @@
 3. 테스트 스크립트 파일명: new/{TC이름}.spec.ts
 4. 테스트 스크립트 작성이 시작되면, 테스트 스크립트를 완성하기까지 중간에 절대 중단하지 마시오.
 5. **[중요]** '3. Test Step' 구성 및 코드 생성 방안
+  - 테스트 스크립트 파일 외에는 다른 파일을 신규로 생성하거나 수정하지 않습니다.
   - 주어진 Test Step을 기반으로 코드 라인을 만듭니다.
-    - 각 Test Step에는 Step에 대한 설명이 있고, 하위에 Step 이름, 테스트 데이터, 코드 자동 생성 시 참조할 html 파일, Step 완료 후 저장할 현재 웹페이지 파일 이름으로 구성되어 있습니다.
+    - 각 Test Step에는 Step에 대한 설명이 있고, 하위에 Step 이름, 테스트 데이터, 코드 자동 생성 시 분석할 html 파일로 구성되어 있습니다.
     - Step 설명과 테스트 데이터를 기반으로 찾아야할 요소가 무엇인지 식별하시오.
-    - 식별된 요소를 **반드시** 이전 Step에 의해서 생성된 '코드 자동 생성 시 참조할 html 파일'을 참조하여, html 파일 내에서 고유한 것으로 찾으시오. 
-    - '코드 자동 생성 시 참조할 html 파일' 안에서 찾지 않고 "추측"으로 요소를 찾는 것은 **절대 금지**됩니다.
+    - 식별된 요소를 **반드시** '코드 자동 생성 시 분석할 html 파일'을 분석하여, 주로 getByRole, getByText 함수를 사용하여 코드를 생성합니다.
+    - 특히 getByRole 함수의 첫번째 인수인 'role'이 무엇인지 html 파일을 자세히 분석하여야 합니다. 
+    - '코드 자동 생성 시 분석할 html 파일' 안에서 찾지 않고 "추측"으로 요소를 찾는 것은 **절대 금지**됩니다.
     - html 파일 안에서 요소를 식별할 수 없는 경우 **즉시 작업을 중단**하고 사용자에게 알리시오. 요소를 정확히 식별할 수 있는 경우에만 코드를 작성을 계속 진행할 수 있습니다.
-    - 해당 요소가 적용된 코드를 생성합니다. getByRole 함수를 가장 우선으로 사용합니다.
-    - 다음으로, 다음 Step 관련 코드 생성에 참고할 현재 html 파일을 작성합니다. html 파일이름은 Step에 명시되어 있는 'Step 완료 후 저장할 현재 웹페이지 파일 이름'으로 합니다. 
+    - 해당 요소가 적용된 코드를 생성합니다.
     - 코드의 처음부터 작성된 코드까지 실행합니다.
 
   - 요약: HTML 파일 분석 기반의 Step by Step 방식으로 진행
-    1. 각 Step의 코드는 반드시 이전 Step에서 생성된 HTML 파일을 분석하여 작성
+    1. 각 Step의 코드는 반드시 지정된 HTML 파일을 분석하여 작성
     2. HTML 파일에서 요소를 정확히 식별할 수 없는 경우 즉시 작업 중단
     3. 식별된 요소를 기반으로 코드 작성
-    4. 실행하여 새로운 HTML 파일 생성
-    5. 이 과정을 모든 Step이 완료될 때까지 반복
+    4. 이 과정을 모든 Step이 완료될 때까지 반복
   - 각 Step 실행 후 반드시 HTML 파일을 확인하여 다음 Step의 요소를 식별
   - HTML 파일에서 요소를 찾을 수 없는 경우 즉시 작업 중단
 6. 5번의 설명에 따라, 모든 Step이 완료될 때까지 반복적으로 진행하며 테스트 스크립트를 완성하시오.
@@ -40,48 +40,42 @@
 - TC 이름
   - TC0001_Send_NaverMail
 - 로그인
-  - 로그인은 기존 코드인 'tests/login-naver-mail-3.spect'을 가져와 beforeEach 함수에 넣는다. 
+  - 로그인은 기존 코드인 'tests/login-naver-mail-3.spec.ts'을 가져와 beforeEach 함수에 넣는다.
+  - 로그인 코드에서는 page-utils.ts 내의 함수를 사용하지만, 하기에 작성된 '3. Test Step'에 따라 코드를 생성할시에는 page-utils.ts 내의 함수를 사용하지 않는다.
 
 ## 3. Test Step
 - Step-01. 네이버 메일 페이지 열기
   - Step 이름: Step-01
   - 테스트 데이터
     - URL: https://mail.naver.com
-  - 코드 자동 생성 시 참조할 html 파일: 없음
-  - Step 완료 후 저장할 현재 웹페이지 파일 이름: ../page-snapshot/Step-01.html
+  - 코드 자동 생성 시 분석할 html 파일: 없음
 - Step-02. '메일 쓰기' 버튼 클릭
   - Step 이름: Step-02
   - 테스트 데이터
     - 없음
-  - 코드 자동 생성 시 참조할 html 파일: ../page-snapshot/Step-01.html
-  - Step 완료 후 저장할 현재 웹페이지 파일 이름: ../page-snapshot/Step-02.html
+  - 코드 자동 생성 시 분석할 html 파일: ../page-snapshots/Step-01.html
 - Step-03. 받는 사람 입력 란에 입력 값 입력.
   - Step 이름: Step-03
   - 테스트 데이터
     - 입력 값: 'kimilsuk1310@hanmail.net'
-  - 코드 자동 생성 시 참조할 html 파일: ../page-snapshot/Step-02.html
-  - Step 완료 후 저장할 현재 웹페이지 파일 이름: ../page-snapshot/Step-03.html
+  - 코드 자동 생성 시 분석할 html 파일: ../page-snapshots/Step-02.html
 - Step-04. 제목 입력 란에 입력 값 입력.
   - Step 이름: Step-04
   - 테스트 데이터
     - 입력 값: '자동화테스트 제목'
-  - 코드 자동 생성 시 참조할 html 파일: ../page-snapshot/Step-03.html
-  - Step 완료 후 저장할 현재 웹페이지 파일 이름: ../page-snapshot/Step-04.html
+  - 코드 자동 생성 시 분석할 html 파일: ../page-snapshots/Step-03.html
 - Step-05. 메일 본문 입력 란에 입력 값 입력.
   - Step 이름: Step-05
   - 테스트 데이터
     - 입력 값: '자동화테스트 본문'
-  - 코드 자동 생성 시 참조할 html 파일: ../page-snapshot/Step-04.html
-  - Step 완료 후 저장할 현재 웹페이지 파일 이름: ../page-snapshot/Step-05.html
+  - 코드 자동 생성 시 분석할 html 파일: ../page-snapshots/Step-04.html
 - Step-06. '보내기' 버튼 클릭
   - Step 이름: Step-06
   - 테스트 데이터
     - 없음
-  - 코드 자동 생성 시 참조할 html 파일: ../page-snapshot/Step-05.html
-  - Step 완료 후 저장할 현재 웹페이지 파일 이름: ../page-snapshot/Step-06.html
+  - 코드 자동 생성 시 분석할 html 파일: ../page-snapshots/Step-05.html
 - Step-07. '메일이 전송되었습니다' 문구 확인
   - Step 이름: Step-07
   - 테스트 데이터
     - 없음
-  - 코드 자동 생성 시 참조할 html 파일: ../page-snapshot/Step-06.html
-  - Step 완료 후 저장할 현재 웹페이지 파일 이름: 없음
+  - 코드 자동 생성 시 분석할 html 파일: ../page-snapshots/Step-06.html
